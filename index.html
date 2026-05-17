@@ -1,0 +1,135 @@
+<header>
+  <div class="logo">🎓 Smart Collage</div>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Explore</a>
+    <a href="#">Top Colleges</a>
+    <a href="#">Reviews</a>
+  </nav>
+</header>
+
+<section class="hero">
+
+  <h1>Find Your Perfect College</h1>
+
+  <p>
+    Smart recommendations based on rank,
+    course, branch & location
+  </p>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar">
+
+    <input
+      type="text"
+      placeholder="Search colleges..."
+      id="searchInput"
+      onkeyup="liveSearch()"
+    >
+
+  </div>
+
+</section>
+
+<section class="top-colleges">
+
+  <h2>🔥 Trending Colleges</h2>
+
+  <div class="top-grid">
+
+    <div class="top-card">
+      <h3>RV College</h3>
+      <p>⭐ 4.8</p>
+    </div>
+
+    <div class="top-card">
+      <h3>BMS College</h3>
+      <p>⭐ 4.6</p>
+    </div>
+
+    <div class="top-card">
+      <h3>MSRIT</h3>
+      <p>⭐ 4.7</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="form-section">
+
+  <div class="box">
+
+    <h2>Enter Your Details</h2>
+
+    <select id="exam">
+      <option value="">Select Exam</option>
+      <option>KCET</option>
+      <option>COMEDK</option>
+      <option>JEE</option>
+      <option>Management</option>
+    </select>
+
+    <input
+      type="number"
+      id="rank"
+      placeholder="Enter your rank"
+    >
+
+    <select
+      id="course"
+      onchange="updateBranches()"
+    >
+
+      <option value="">Select Course</option>
+
+      <option>B.Tech</option>
+      <option>B.Com</option>
+      <option>BBA</option>
+      <option>B.Sc</option>
+
+    </select>
+
+    <select id="branch">
+      <option value="">Select Branch</option>
+    </select>
+
+    <select id="location">
+
+      <option>Bangalore</option>
+      <option>Chennai</option>
+      <option>Hyderabad</option>
+      <option>Mumbai</option>
+      <option>Delhi</option>
+      <option>Pune</option>
+      <option>Kolkata</option>
+
+    </select>
+
+    <button onclick="recommend()">
+      Find Colleges
+    </button>
+
+    <div id="result" class="results"></div>
+
+  </div>
+
+</section>
+
+<footer>
+  <p>
+    Smart College Recommendation System © 2026
+  </p>
+</footer>
+<div id="popup" class="popup hidden">
+  <div class="popup-box">
+
+    <span onclick="closePopup()" class="close">✖</span>
+
+    <h2 id="pName"></h2>
+    <p id="pLocation"></p>
+    <p id="pRating"></p>
+
+  </div>
+</div>
