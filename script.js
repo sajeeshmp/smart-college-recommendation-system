@@ -1,8 +1,4 @@
 // ================= FIREBASE =================
-// ================= FIREBASE =================
-
-// ================= FIREBASE =================
-// ================= FIREBASE =================
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_P_1FAzh0-tQCAZP1DjtEIoDrJyplLLE",
@@ -13,12 +9,13 @@ const firebaseConfig = {
   appId: "1:1042913604563:web:843989dc60ab175622f526"
 };
 
-// ✅ FIX: use compat correctly (since your HTML uses compat scripts)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 console.log("🔥 Firebase Connected");
 
+
+// ================= ADD COLLEGE =================
 async function addCollege() {
 
   const college = {
@@ -36,12 +33,13 @@ async function addCollege() {
     clubs: document.getElementById("a_clubs").value
   };
 
-  await addDoc(collection(db, "colleges"), college);
+  await db.collection("colleges").add(college);
 
   alert("College Added ✅");
 
-  loadColleges(); // refresh UI
+  // removed loadColleges() because it doesn't exist
 }
+
 
 // ================= DATA =================
 const colleges = [
@@ -131,6 +129,7 @@ const colleges = [
   }
 ];
 
+
 // ================= BRANCH =================
 const branchData = {
   "B.Tech": ["CSE","AI & DS","AI & ML","ECE","EEE","Civil","Mechanical"],
@@ -139,16 +138,26 @@ const branchData = {
   "B.Sc": ["CS","Physics"]
 };
 
-document.getElementById("course").onchange = () => {
-  const c = document.getElementById("course").value;
-  const b = document.getElementById("branch");
 
-  b.innerHTML = `<option value="">Select Branch</option>`;
+// FIX: wait until page loads
+window.onload = () => {
 
-  (branchData[c] || []).forEach(x => {
-    b.innerHTML += `<option>${x}</option>`;
-  });
+  const courseEl = document.getElementById("course");
+
+  if (courseEl) {
+    courseEl.onchange = () => {
+      const c = document.getElementById("course").value;
+      const b = document.getElementById("branch");
+
+      b.innerHTML = `<option value="">Select Branch</option>`;
+
+      (branchData[c] || []).forEach(x => {
+        b.innerHTML += `<option>${x}</option>`;
+      });
+    };
+  }
 };
+
 
 // ================= RECOMMEND =================
 function recommend() {
@@ -185,9 +194,9 @@ function recommend() {
   render(scored);
 }
 
-// ================= AI REASON =================
-function aiReason(c) {
 
+// ================= AI =================
+function aiReason(c) {
   let r = [];
 
   if (c.placement >= 90) r.push("High placement opportunities");
@@ -199,6 +208,7 @@ function aiReason(c) {
   return r.join(", ") || "Balanced college profile";
 }
 
+
 // ================= RENDER =================
 function render(list) {
 
@@ -206,18 +216,14 @@ function render(list) {
   result.innerHTML = "";
 
   if(list.length === 0){
-  result.innerHTML = `
-    <div class="no-results">
-      😢 No colleges found
-    </div>
-  `;
-  return;
-}
+    result.innerHTML = `<div class="no-results">😢 No colleges found</div>`;
+    return;
+  }
+
   list.forEach(c => {
 
     result.innerHTML += `
       <div class="card">
-
         <h3 onclick="openCollege('${c.name}')">${c.name}</h3>
 
         <p>📍 ${c.location}</p>
@@ -231,11 +237,11 @@ function render(list) {
         <p style="font-size:12px;color:#94a3b8">
           🧠 ${aiReason(c)}
         </p>
-
       </div>
     `;
   });
 }
+
 
 // ================= POPUP =================
 function openCollege(name) {
@@ -243,8 +249,7 @@ function openCollege(name) {
   const c = colleges.find(x => x.name === name);
   if (!c) return;
 
-  const popup = document.getElementById("popup");
-  popup.classList.remove("hidden");
+  document.getElementById("popup").classList.remove("hidden");
 
   document.getElementById("pName").innerText = c.name;
   document.getElementById("pLocation").innerText = "📍 " + c.location;
@@ -253,7 +258,6 @@ function openCollege(name) {
   document.getElementById("pBranch").innerText = "🎓 " + c.course + " - " + c.branch;
   document.getElementById("pExam").innerText = "📝 " + c.exam;
   document.getElementById("pCutoff").innerText = "📊 Cutoff: " + c.cutoff;
-
   document.getElementById("pFees").innerText = "💰 Fees: ₹" + c.fees;
 
   document.getElementById("pSports").innerText = "⚽ " + c.sports;
@@ -264,20 +268,23 @@ function openCollege(name) {
   document.getElementById("pAI").innerText = "🧠 " + aiReason(c);
 }
 
+
 // ================= CLOSE =================
 function closePopup() {
   document.getElementById("popup").classList.add("hidden");
 }
 
-// ================= FIRESTORE =================
+
+// ================= SAVE =================
 async function saveFav(name) {
-  await addDoc(collection(db, "favorites"), {
+  await db.collection("favorites").add({
     college: name,
     time: new Date().toISOString()
   });
 
   alert("Saved to Firebase ❤️");
 }
+
 
 // ================= SEARCH =================
 function liveSearch() {
