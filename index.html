@@ -1,260 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
+<header>
+  <div class="logo">🎓 Smart College</div>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Explore</a>
+    <a href="#">Top Colleges</a>
+    <a href="#">Reviews</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Find Your Perfect College</h1>
+  <p>Smart recommendations based on rank, course, branch & location</p>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search colleges..." onkeyup="liveSearch()">
+  </div>
+</section>
+
+<section class="top-colleges">
+  <h2>🔥 Trending Colleges</h2>
+
+  <div class="top-grid">
+    <div class="top-card"><h3>DSCE</h3><p>⭐ 4.6</p></div>
+    <div class="top-card"><h3>NHCE</h3><p>⭐ 4.0</p></div>
+    <div class="top-card"><h3>EPCET</h3><p>⭐ 3.7</p></div>
+  </div>
+</section>
+
+<section class="form-section">
+  <div class="box">
+
+    <h2>Enter Your Details</h2>
+
+    <select id="exam">
+      <option value="">Select Exam</option>
+      <option>KCET</option>
+      <option>COMEDK</option>
+      <option>JEE</option>
+      <option>Management</option>
+    </select>
+
+    <input type="number" id="rank" placeholder="Enter your rank">
+
+    <select id="course">
+      <option value="">Select Course</option>
+      <option>B.Tech</option>
+      <option>B.Com</option>
+      <option>BBA</option>
+      <option>B.Sc</option>
+    </select>
+
+    <select id="branch">
+      <option value="">Select Branch</option>
+    </select>
+
+    <select id="location">
+      <option>Bangalore</option>
+      <option>Chennai</option>
+      <option>Hyderabad</option>
+      <option>Mumbai</option>
+      <option>Delhi</option>
+      <option>Pune</option>
+      <option>Kolkata</option>
+    </select>
+
+    <h3>Filters</h3>
+
+    <select id="feesFilter">
+      <option value="">Max Fees</option>
+      <option value="100000">1 Lakh</option>
+      <option value="200000">2 Lakh</option>
+      <option value="300000">3 Lakh</option>
+    </select>
+
+    <select id="placementFilter">
+      <option value="">Min Placement</option>
+      <option value="70">70%</option>
+      <option value="80">80%</option>
+      <option value="90">90%</option>
+    </select>
+
+    <button onclick="recommend()">Find Colleges</button>
+
+    <div id="result" class="results"></div>
+  </div>
+</section>
+
+<footer>
+  <p>Smart College Recommendation System © 2026</p>
+</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<!-- YOUR MAIN JS FILE (IMPORTANT FOR GITHUB) -->
+<script src="script.js"></script>
+
+<!-- POPUP -->
+<div id="popup" class="popup hidden">
+  <div class="popup-box">
 
-<head>
+    <span class="close" onclick="closePopup()">✖</span>
 
-  <meta charset="UTF-8">
+    <h2 id="pName"></h2>
+    <p id="pLocation"></p>
+    <p id="pRating"></p>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <hr>
 
-  <title>Smart College</title>
+    <h3>🏫 College Details</h3>
 
-  <link rel="stylesheet" href="style.css">
+    <p id="pBranch"></p>
+    <p id="pExam"></p>
+    <p id="pCutoff"></p>
+    <p id="pFees"></p>
 
-  <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-app-compat.js"></script>
+    <hr>
 
-  <script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore-compat.js"></script>
+    <h3>🏆 Campus Features</h3>
 
-</head>
+    <p id="pSports"></p>
+    <p id="pPlacement"></p>
+    <p id="pCultural"></p>
+    <p id="pClubs"></p>
 
-<body>
+    <p id="pAI"></p>
 
-  <!-- NAVBAR -->
-
-  <header>
-
-    <div class="logo">
-      🎓 Smart College
-    </div>
-
-    <nav>
-
-      <a href="#">Home</a>
-
-      <a href="#">Explore</a>
-
-      <a href="#">Top Colleges</a>
-
-      <a href="#">Reviews</a>
-
-    </nav>
-
-  </header>
-
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <h1>
-      Find Your Perfect College
-    </h1>
-
-    <p>
-      Smart recommendations based on rank,
-      course, branch & location
-    </p>
-
-    <!-- SEARCH -->
-
-    <div class="search-bar">
-
-      <input
-        type="text"
-        placeholder="Search colleges..."
-        id="searchInput"
-        onkeyup="liveSearch()"
-      >
-
-    </div>
-
-  </section>
-
-  <!-- TRENDING COLLEGES -->
-
-  <section class="top-colleges">
-
-    <h2>🔥 Trending Colleges</h2>
-
-    <div class="top-grid">
-
-      <div class="top-card">
-
-        <h3>RV College</h3>
-
-        <p>⭐ 4.8</p>
-
-      </div>
-
-      <div class="top-card">
-
-        <h3>East Point College</h3>
-
-        <p>⭐ 4.6</p>
-
-      </div>
-
-      <div class="top-card">
-
-        <h3>New Horizon College</h3>
-
-        <p>⭐ 4.5</p>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- FORM -->
-
-  <section class="form-section">
-
-    <div class="box">
-
-      <h2>
-        Enter Your Details
-      </h2>
-
-      <!-- EXAM -->
-
-      <select id="exam">
-
-        <option value="">
-          Select Exam
-        </option>
-
-        <option>KCET</option>
-
-        <option>COMEDK</option>
-
-        <option>JEE</option>
-
-        <option>Management</option>
-
-      </select>
-
-      <!-- RANK -->
-
-      <input
-        type="number"
-        id="rank"
-        placeholder="Enter your rank"
-      >
-
-      <!-- COURSE -->
-
-      <select
-        id="course"
-        onchange="updateBranches()"
-      >
-
-        <option value="">
-          Select Course
-        </option>
-
-        <option>B.Tech</option>
-
-        <option>B.Com</option>
-
-        <option>BBA</option>
-
-        <option>B.Sc</option>
-
-      </select>
-
-      <!-- BRANCH -->
-
-      <select id="branch">
-
-        <option value="">
-          Select Branch
-        </option>
-
-      </select>
-
-      <!-- LOCATION -->
-
-      <select id="location">
-
-        <option>Bangalore</option>
-
-        <option>Chennai</option>
-
-        <option>Hyderabad</option>
-
-        <option>Mumbai</option>
-
-        <option>Delhi</option>
-
-        <option>Pune</option>
-
-        <option>Kolkata</option>
-
-      </select>
-
-      <!-- BUTTON -->
-
-      <button onclick="recommend()">
-
-        Find Colleges
-
-      </button>
-
-      <!-- RESULTS -->
-
-      <div
-        id="result"
-        class="results"
-      ></div>
-
-    </div>
-
-  </section>
-
-  <!-- POPUP -->
-
-  <div
-    id="popup"
-    class="popup hidden"
-  >
-
-    <div class="popup-box">
-
-      <span
-        onclick="closePopup()"
-        class="close"
-      >
-        ✖
-      </span>
-
-      <h2 id="pName"></h2>
-
-      <p id="pLocation"></p>
-
-      <p id="pRating"></p>
-
-    </div>
+    <button onclick="closePopup()">Close</button>
 
   </div>
-
-  <!-- FOOTER -->
-
-  <footer>
-
-    <p>
-      Smart College Recommendation System © 2026
-    </p>
-
-  </footer>
-
-  <!-- JS -->
-
-  <script src="script.js"></script>
-
-</body>
-
-</html>
+</div>
