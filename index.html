@@ -1,4 +1,6 @@
 <header>
+  <link rel="stylesheet" href="style.css">
+
   <div class="logo">🎓 Smart College</div>
 
   <nav>
@@ -91,13 +93,6 @@
   <p>Smart College Recommendation System © 2026</p>
 </footer>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<!-- YOUR MAIN JS FILE (IMPORTANT FOR GITHUB) -->
-<script src="script.js"></script>
-
 <!-- POPUP -->
 <div id="popup" class="popup hidden">
   <div class="popup-box">
@@ -111,7 +106,6 @@
     <hr>
 
     <h3>🏫 College Details</h3>
-
     <p id="pBranch"></p>
     <p id="pExam"></p>
     <p id="pCutoff"></p>
@@ -120,15 +114,20 @@
     <hr>
 
     <h3>🏆 Campus Features</h3>
-
     <p id="pSports"></p>
     <p id="pPlacement"></p>
     <p id="pCultural"></p>
     <p id="pClubs"></p>
 
     <p id="pAI"></p>
-
     <button onclick="closePopup()">Close</button>
 
   </div>
 </div>
+
+<!-- SCRIPTS -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script src="script.js"></script>
+</body>
