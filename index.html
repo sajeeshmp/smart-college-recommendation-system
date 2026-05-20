@@ -1,6 +1,5 @@
 <header>
   <link rel="stylesheet" href="./style.css">
-
   <div class="logo">🎓 Smart College</div>
 
   <nav>
@@ -54,8 +53,8 @@
     </select>
 
     <select id="branch">
-      <option value="">Select Branch</option>
-    </select>
+  <option value="">Select Branch</option>
+</select>
 
     <select id="location">
       <option>Bangalore</option>
@@ -93,7 +92,11 @@
   <p>Smart College Recommendation System © 2026</p>
 </footer>
 
-<!-- POPUP -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<!-- ✅ SINGLE POWERFUL POPUP -->
 <div id="popup" class="popup hidden">
   <div class="popup-box">
 
@@ -105,29 +108,26 @@
 
     <hr>
 
-    <h3>🏫 College Details</h3>
-    <p id="pBranch"></p>
-    <p id="pExam"></p>
-    <p id="pCutoff"></p>
-    <p id="pFees"></p>
+<h3>🏫 College Details</h3>
 
-    <hr>
+<p id="pBranch"></p>
+<p id="pExam"></p>
+<p id="pCutoff"></p>
+<p id="pFees"></p>
 
-    <h3>🏆 Campus Features</h3>
-    <p id="pSports"></p>
-    <p id="pPlacement"></p>
-    <p id="pCultural"></p>
-    <p id="pClubs"></p>
+<hr>
+
+<h3>🏆 Campus Features</h3>
+
+<p id="pSports"></p>
+<p id="pPlacement"></p>
+<p id="pCultural"></p>
+<p id="pClubs"></p>
 
     <p id="pAI"></p>
     <button onclick="closePopup()">Close</button>
 
+    <script src="script.js"></script>
+</body>
   </div>
 </div>
-
-<!-- SCRIPTS -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<script src="script.js"></script>
-</body>
