@@ -1,425 +1,292 @@
-// =====================
-// FIREBASE INIT
-// =====================
+// ================= FIREBASE =================
+// ================= FIREBASE =================
+
+// ================= FIREBASE =================
+// ================= FIREBASE =================
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyC_P_1FAzh0-tQCAZP1DjtEIoDrJyplLLE",
+  authDomain: "smart-college-recommend-system.firebaseapp.com",
+  projectId: "smart-college-recommend-system",
+  storageBucket: "smart-college-recommend-system.firebasestorage.app",
+  messagingSenderId: "1042913604563",
+  appId: "1:1042913604563:web:843989dc60ab175622f526"
 };
 
+// ✅ FIX: use compat correctly (since your HTML uses compat scripts)
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
-console.log("🔥 Firebase Ready");
+console.log("🔥 Firebase Connected");
 
-// =====================
-// DOM ELEMENTS
-// =====================
+async function addCollege() {
 
-const result =
-  document.getElementById("result");
+  const college = {
+    name: document.getElementById("a_name").value,
+    exam: document.getElementById("a_exam").value,
+    course: document.getElementById("a_course").value,
+    branch: document.getElementById("a_branch").value,
+    location: document.getElementById("a_location").value,
+    cutoff: Number(document.getElementById("a_cutoff").value),
+    rating: Number(document.getElementById("a_rating").value),
+    fees: Number(document.getElementById("a_fees").value),
+    placement: Number(document.getElementById("a_placement").value),
+    sports: document.getElementById("a_sports").value,
+    cultural: document.getElementById("a_cultural").value,
+    clubs: document.getElementById("a_clubs").value
+  };
 
-const popup =
-  document.getElementById("popup");
+  await addDoc(collection(db, "colleges"), college);
 
-const pName =
-  document.getElementById("pName");
+  alert("College Added ✅");
 
-const pLocation =
-  document.getElementById("pLocation");
+  loadColleges(); // refresh UI
+}
 
-const pRating =
-  document.getElementById("pRating");
-
-// =====================
-// COLLEGE DATA
-// =====================
-
+// ================= DATA =================
 const colleges = [
-
   {
-    name: "RV College",
+    name: "RV College of Engineering",
     exam: "KCET",
     course: "B.Tech",
     branch: "CSE",
     location: "Bangalore",
     cutoff: 1200,
-    rating: 4.8
+    rating: 4.8,
+    fees: 250000,
+    placement: 95,
+    sports: "Excellent (Cricket, Football, Basketball)",
+    cultural: "Milana Fest",
+    clubs: "Robotics, Coding, Startup Cell"
   },
-
   {
-    name: "East Point College",
+    name: "PES University",
+    exam: "KCET",
+    course: "B.Tech",
+    branch: "CSE",
+    location: "Bangalore",
+    cutoff: 800,
+    rating: 4.7,
+    fees: 320000,
+    placement: 97,
+    sports: "Excellent infrastructure",
+    cultural: "Strong tech fests",
+    clubs: "AI, Robotics, Startup"
+  },
+  {
+    name: "MS Ramaiah Institute of Technology",
+    exam: "KCET",
+    course: "B.Tech",
+    branch: "ECE",
+    location: "Bangalore",
+    cutoff: 2500,
+    rating: 4.5,
+    fees: 220000,
+    placement: 90,
+    sports: "Good sports culture",
+    cultural: "Active campus events",
+    clubs: "IEEE, Innovation"
+  },
+  {
+    name: "BMS College of Engineering",
+    exam: "KCET",
+    course: "B.Tech",
+    branch: "CSE",
+    location: "Bangalore",
+    cutoff: 1800,
+    rating: 4.6,
+    fees: 200000,
+    placement: 92,
+    sports: "Very good",
+    cultural: "Utsav Fest",
+    clubs: "Coding, Robotics"
+  },
+  {
+    name: "East Point College of Engineering",
     exam: "KCET",
     course: "B.Tech",
     branch: "AI & DS",
     location: "Bangalore",
     cutoff: 15000,
-    rating: 4.6
+    rating: 3.7,
+    fees: 120000,
+    placement: 70,
+    sports: "Moderate",
+    cultural: "Good",
+    clubs: "Basic tech clubs"
   },
-
   {
-    name: "New Horizon College",
+    name: "New Horizon College of Engineering",
     exam: "COMEDK",
     course: "B.Tech",
     branch: "CSE",
     location: "Bangalore",
     cutoff: 5000,
-    rating: 4.5
+    rating: 4.0,
+    fees: 180000,
+    placement: 80,
+    sports: "Good",
+    cultural: "Sargam Fest",
+    clubs: "Coding, Dance"
   }
-
 ];
 
-// =====================
-// UPDATE BRANCHES
-// =====================
+// ================= BRANCH =================
+const branchData = {
+  "B.Tech": ["CSE","AI & DS","AI & ML","ECE","EEE","Civil","Mechanical"],
+  "B.Com": ["Finance","Accounting"],
+  "BBA": ["Marketing","HR"],
+  "B.Sc": ["CS","Physics"]
+};
 
-function updateBranches() {
+document.getElementById("course").onchange = () => {
+  const c = document.getElementById("course").value;
+  const b = document.getElementById("branch");
 
-  let course =
-    document.getElementById("course").value;
+  b.innerHTML = `<option value="">Select Branch</option>`;
 
-  let branch =
-    document.getElementById("branch");
-
-  const data = {
-
-    "B.Tech": [
-      "CSE",
-      "ECE",
-      "MECH",
-      "AI & DS"
-    ],
-
-    "B.Com": [
-      "Finance",
-      "Accounting"
-    ],
-
-    "BBA": [
-      "Marketing",
-      "HR"
-    ],
-
-    "B.Sc": [
-      "Physics",
-      "CS"
-    ]
-  };
-
-  branch.innerHTML =
-    `<option>Select Branch</option>`;
-
-  (data[course] || []).forEach(b => {
-
-    branch.innerHTML += `
-      <option>${b}</option>
-    `;
-
+  (branchData[c] || []).forEach(x => {
+    b.innerHTML += `<option>${x}</option>`;
   });
-}
+};
 
-// =====================
-// LOADER
-// =====================
-
-function showLoader() {
-
-  result.innerHTML = "";
-
-  for (let i = 0; i < 3; i++) {
-
-    result.innerHTML += `
-      <div class="loader-card"></div>
-    `;
-  }
-}
-
-// =====================
-// RECOMMEND SYSTEM
-// =====================
-
+// ================= RECOMMEND =================
 function recommend() {
 
-  let exam =
-    document.getElementById("exam").value;
+  const exam = document.getElementById("exam").value;
+  const rank = Number(document.getElementById("rank").value || 0);
+  const course = document.getElementById("course").value;
+  const branch = document.getElementById("branch").value;
+  const location = document.getElementById("location").value;
 
-  let rank =
-    parseInt(
-      document.getElementById("rank").value
-    );
-
-  let course =
-    document.getElementById("course").value;
-
-  let branch =
-    document.getElementById("branch").value;
-
-  let location =
-    document.getElementById("location").value;
-
-  showLoader();
-
-  setTimeout(() => {
-
-    result.innerHTML = "";
-
-    let scored = colleges.map(c => {
-
-      let score = 0;
-
-      if (c.exam === exam) {
-        score += 30;
-      }
-
-      if (c.course === course) {
-        score += 20;
-      }
-
-      if (c.branch === branch) {
-        score += 20;
-      }
-
-      if (c.location === location) {
-        score += 10;
-      }
-
-      if (rank <= c.cutoff) {
-        score += 20;
-      }
-
-      if (score < 0) {
-        score = 0;
-      }
-
-      if (score > 100) {
-        score = 100;
-      }
-
-      return {
-        ...c,
-        score
-      };
-
-    });
-
-    scored.sort(
-      (a, b) => b.score - a.score
-    );
-
-    scored.forEach(c => {
-
-      const reason =
-        "Good rating ✔ Popular campus ✔ Strong academics ✔";
-
-      result.innerHTML += `
-
-        <div
-          class="card"
-          onclick="
-            openCollege(
-              '${c.name}',
-              '${c.location}',
-              '${c.rating}',
-              '${c.score}'
-            )
-          "
-        >
-
-          <h3>${c.name}</h3>
-
-          <p>📍 ${c.location}</p>
-
-          <p>
-            🎓 ${c.course}
-            - ${c.branch}
-          </p>
-
-          <p>
-            ⭐ Rating:
-            ${c.rating}
-          </p>
-
-          <p style="color:#38bdf8;">
-            📊 Match Score:
-            ${c.score}/100
-          </p>
-
-          <div class="score-bar">
-
-            <div
-              class="score-fill"
-              style="width:${c.score}%"
-            ></div>
-
-          </div>
-
-          <div class="ai-text">
-            🧠 ${reason}
-          </div>
-
-          <button
-            onclick="
-              event.stopPropagation();
-              addFavorite('${c.name}')
-            "
-          >
-            ❤️ Save
-          </button>
-
-        </div>
-
-      `;
-    });
-
-  }, 700);
-}
-
-// =====================
-// LIVE SEARCH
-// =====================
-
-function liveSearch() {
-
-  let input =
-    document
-    .getElementById("searchInput")
-    .value
-    .toLowerCase();
-
-  result.innerHTML = "";
+  const fees = Number(document.getElementById("feesFilter").value || 999999);
+  const placement = Number(document.getElementById("placementFilter").value || 0);
 
   let filtered = colleges.filter(c =>
-
-    c.name
-    .toLowerCase()
-    .includes(input)
-
-    ||
-
-    c.location
-    .toLowerCase()
-    .includes(input)
-
-    ||
-
-    c.course
-    .toLowerCase()
-    .includes(input)
-
-    ||
-
-    c.branch
-    .toLowerCase()
-    .includes(input)
-
+    c.fees <= fees &&
+    c.placement >= placement
   );
 
-  if (filtered.length === 0) {
+  let scored = filtered.map(c => {
 
-    result.innerHTML = `
-      <div class="no-results">
-        No colleges found 😢
-      </div>
-    `;
+    let score = 0;
 
-    return;
-  }
+    if (c.exam === exam) score += 30;
+    if (c.course === course) score += 20;
+    if (c.branch === branch) score += 20;
+    if (c.location === location) score += 10;
+    if (rank && rank <= c.cutoff) score += 20;
 
-  filtered.forEach(c => {
+    return { ...c, score };
+  });
+
+  scored.sort((a,b) => b.score - a.score);
+
+  render(scored);
+}
+
+// ================= AI REASON =================
+function aiReason(c) {
+
+  let r = [];
+
+  if (c.placement >= 90) r.push("High placement opportunities");
+  if (c.rating >= 4.5) r.push("Top rated college");
+  if (c.fees < 200000) r.push("Affordable fees");
+  if (c.cultural) r.push("Active cultural life");
+  if (c.sports) r.push("Good sports facilities");
+
+  return r.join(", ") || "Balanced college profile";
+}
+
+// ================= RENDER =================
+function render(list) {
+
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+
+  if(list.length === 0){
+  result.innerHTML = `
+    <div class="no-results">
+      😢 No colleges found
+    </div>
+  `;
+  return;
+}
+  list.forEach(c => {
 
     result.innerHTML += `
+      <div class="card">
 
-      <div
-        class="card"
-        onclick="
-          openCollege(
-            '${c.name}',
-            '${c.location}',
-            '${c.rating}',
-            '85'
-          )
-        "
-      >
-
-        <h3>${c.name}</h3>
+        <h3 onclick="openCollege('${c.name}')">${c.name}</h3>
 
         <p>📍 ${c.location}</p>
+        <p>🎓 ${c.course} - ${c.branch}</p>
+        <p>⭐ ${c.rating}</p>
+        <p>🏆 Placement ${c.placement}%</p>
 
-        <p>
-          🎓 ${c.course}
-          - ${c.branch}
+        <button onclick="openCollege('${c.name}')">View Details</button>
+        <button onclick="saveFav('${c.name}')">❤️ Save</button>
+
+        <p style="font-size:12px;color:#94a3b8">
+          🧠 ${aiReason(c)}
         </p>
-
-        <p>
-          ⭐ ${c.rating}
-        </p>
-
-        <p style="color:#38bdf8;">
-          ⭐ Trending College
-        </p>
-
-        <div class="score-bar">
-
-          <div
-            class="score-fill"
-            style="width:85%"
-          ></div>
-
-        </div>
 
       </div>
-
     `;
   });
 }
 
-// =====================
-// FAVORITES
-// =====================
+// ================= POPUP =================
+function openCollege(name) {
 
-function addFavorite(name) {
+  const c = colleges.find(x => x.name === name);
+  if (!c) return;
 
-  db.collection("favorites").add({
-
-    college: name,
-    time: new Date()
-
-  });
-
-  alert("❤️ Saved Successfully");
-}
-
-// =====================
-// POPUP
-// =====================
-
-function openCollege(
-  name,
-  location,
-  rating,
-  score
-) {
-
+  const popup = document.getElementById("popup");
   popup.classList.remove("hidden");
 
-  pName.innerText =
-    name;
+  document.getElementById("pName").innerText = c.name;
+  document.getElementById("pLocation").innerText = "📍 " + c.location;
+  document.getElementById("pRating").innerText = "⭐ " + c.rating;
 
-  pLocation.innerText =
-    "📍 " + location;
+  document.getElementById("pBranch").innerText = "🎓 " + c.course + " - " + c.branch;
+  document.getElementById("pExam").innerText = "📝 " + c.exam;
+  document.getElementById("pCutoff").innerText = "📊 Cutoff: " + c.cutoff;
 
-  pRating.innerText =
-    "⭐ " + rating +
-    " | 📊 Match Score: " +
-    score + "/100";
+  document.getElementById("pFees").innerText = "💰 Fees: ₹" + c.fees;
+
+  document.getElementById("pSports").innerText = "⚽ " + c.sports;
+  document.getElementById("pPlacement").innerText = "🏆 " + c.placement + "%";
+  document.getElementById("pCultural").innerText = "🎭 " + c.cultural;
+  document.getElementById("pClubs").innerText = "💻 " + c.clubs;
+
+  document.getElementById("pAI").innerText = "🧠 " + aiReason(c);
 }
 
+// ================= CLOSE =================
 function closePopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
 
-  popup.classList.add("hidden");
+// ================= FIRESTORE =================
+async function saveFav(name) {
+  await addDoc(collection(db, "favorites"), {
+    college: name,
+    time: new Date().toISOString()
+  });
+
+  alert("Saved to Firebase ❤️");
+}
+
+// ================= SEARCH =================
+function liveSearch() {
+
+  const input = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = colleges.filter(c =>
+    c.name.toLowerCase().includes(input)
+  );
+
+  render(filtered);
 }
