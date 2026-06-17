@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart College</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="bg-blur blur1"></div>
+    <div class="bg-blur blur2"></div>
+
+    <header class="navbar">
+
+        <div class="logo">
+            🎓 Smart College
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="compare.html">Compare</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+    </header>
+
+    <section class="hero">
+
+        <div class="hero-card">
+
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Manage colleges and programs stored in Firebase Firestore.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- COLLEGE FORM -->
+
+    <section class="search-panel">
+
+        <h2>Add College</h2>
+
+        <div class="form-grid">
+
+            <input type="text" id="collegeCode" placeholder="College Code (Example: E001)">
+
+            <input type="text" id="collegeName" placeholder="College Name">
+
+            <input type="text" id="city" placeholder="City">
+
+            <input type="text" id="state" placeholder="State">
+
+            <input type="text" id="collegeType" placeholder="Government / Private">
+
+            <input type="text" id="website" placeholder="Website URL">
+
+            <input type="text" id="admissionModes" placeholder="KCET,COMEDK,Management">
+
+        </div>
+
+        <button
+            class="recommend-btn"
+            onclick="addCollege()">
+
+            Add College
+
+        </button>
+
+    </section>
+
+    <!-- PROGRAM FORM -->
+
+    <section class="search-panel">
+
+        <h2>Add Program</h2>
+
+        <div class="form-grid">
+
+            <input type="text" id="programCollegeCode" placeholder="College Code">
+
+            <input type="text" id="programId" placeholder="Program ID (CSE, AI_DS)">
+
+            <input type="text" id="branch" placeholder="Branch">
+
+            <input type="text" id="course" placeholder="Course">
+
+            <input type="number" id="fees" placeholder="Fees">
+
+            <input type="number" id="kcetCutoff" placeholder="KCET Cutoff">
+
+            <input type="number" id="comedkCutoff" placeholder="COMEDK Cutoff">
+
+            <select id="managementAvailable">
+
+                <option value="true">Management Available</option>
+                <option value="false">Management Not Available</option>
+
+            </select>
+
+        </div>
+
+        <button
+            class="recommend-btn"
+            onclick="addProgram()">
+
+            Add Program
+
+        </button>
+
+    </section>
+
+    <!-- COLLEGE LIST -->
+
+    <section class="results-section">
+
+        <h2 style="text-align:center;margin-bottom:20px;">
+            Existing Colleges
+        </h2>
+
+        <div id="collegeList" class="results-grid">
+
+        </div>
+
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+    <script src="firebase.js"></script>
+    <script src="admin.js"></script>
+
+</body>
+
+</html>
