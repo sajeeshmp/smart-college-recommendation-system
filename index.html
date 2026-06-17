@@ -1,133 +1,121 @@
-<header>
-  <link rel="stylesheet" href="./style.css">
-  <div class="logo">🎓 Smart College</div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Explore</a>
-    <a href="#">Top Colleges</a>
-    <a href="#">Reviews</a>
-  </nav>
-</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart College Recommendation System</title>
 
-<section class="hero">
-  <h1>Find Your Perfect College</h1>
-  <p>Smart recommendations based on rank, course, branch & location</p>
+    <link rel="stylesheet" href="style.css">
 
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search colleges..." onkeyup="liveSearch()">
-  </div>
-</section>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-<section class="top-colleges">
-  <h2>🔥 Trending Colleges</h2>
+<body>
 
-  <div class="top-grid">
-    <div class="top-card"><h3>DSCE</h3><p>⭐ 4.6</p></div>
-    <div class="top-card"><h3>NHCE</h3><p>⭐ 4.0</p></div>
-    <div class="top-card"><h3>EPCET</h3><p>⭐ 3.7</p></div>
-  </div>
-</section>
+    <div class="bg-blur blur1"></div>
+    <div class="bg-blur blur2"></div>
 
-<section class="form-section">
-  <div class="box">
+    <header class="navbar">
 
-    <h2>Enter Your Details</h2>
+        <div class="logo">
+            🎓 Smart College
+        </div>
 
-    <select id="exam">
-      <option value="">Select Exam</option>
-      <option>KCET</option>
-      <option>COMEDK</option>
-      <option>JEE</option>
-      <option>Management</option>
-    </select>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="compare.html">Compare</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html">Login</a>
+        </nav>
+        <div id="userInfo"
+           style="
+           text-align:center;
+            margin-top:10px;
+            font-weight:600;">
+        </div>
 
-    <input type="number" id="rank" placeholder="Enter your rank">
+    </header>
 
-    <select id="course">
-      <option value="">Select Course</option>
-      <option>B.Tech</option>
-      <option>B.Com</option>
-      <option>BBA</option>
-      <option>B.Sc</option>
-    </select>
+    <section class="hero">
 
-    <select id="branch">
-  <option value="">Select Branch</option>
-</select>
+        <div class="hero-card">
 
-    <select id="location">
-      <option>Bangalore</option>
-      <option>Chennai</option>
-      <option>Hyderabad</option>
-      <option>Mumbai</option>
-      <option>Delhi</option>
-      <option>Pune</option>
-      <option>Kolkata</option>
-    </select>
+            <h1>Smart College Recommendation System</h1>
 
-    <h3>Filters</h3>
+            <p>
+                Find the best college based on KCET, COMEDK,
+                Management Quota, Branch Preference,
+                Location and Fee Structure.
+            </p>
 
-    <select id="feesFilter">
-      <option value="">Max Fees</option>
-      <option value="100000">1 Lakh</option>
-      <option value="200000">2 Lakh</option>
-      <option value="300000">3 Lakh</option>
-    </select>
+        </div>
 
-    <select id="placementFilter">
-      <option value="">Min Placement</option>
-      <option value="70">70%</option>
-      <option value="80">80%</option>
-      <option value="90">90%</option>
-    </select>
+    </section>
 
-    <button onclick="recommend()">Find Colleges</button>
+    <section class="search-panel">
 
-    <div id="result" class="results"></div>
-  </div>
-</section>
+        <h2>Find Your Perfect College</h2>
 
-<footer>
-  <p>Smart College Recommendation System © 2026</p>
-</footer>
+        <div class="form-grid">
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+            <select id="exam">
+                <option value="">Select Exam</option>
+                <option value="KCET">KCET</option>
+                <option value="COMEDK">COMEDK</option>
+                <option value="Management">Management</option>
+            </select>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+            <input id="rank" type="number" placeholder="Enter Rank">
 
-<!-- ✅ SINGLE POWERFUL POPUP -->
-<div id="popup" class="popup hidden">
-  <div class="popup-box">
+            <select id="course">
+                <option value="">Select Course</option>
+                <option>B.Tech</option>
+                <option>BBA</option>
+                <option>B.Com</option>
+            </select>
 
-    <span class="close" onclick="closePopup()">✖</span>
+            <select id="branch">
+                <option value="">Select Branch</option>
+            </select>
 
-    <h2 id="pName"></h2>
-    <p id="pLocation"></p>
-    <p id="pRating"></p>
+            <select id="location">
+                <option value="">Select Location</option>
+                <option>Bengaluru</option>
+                <option>Chennai</option>
+            </select>
 
-    <hr>
+            <select id="feesFilter">
+                <option value="">Maximum Fees</option>
+                <option value="100000">₹1,00,000</option>
+                <option value="200000">₹2,00,000</option>
+                <option value="500000">₹5,00,000</option>
+            </select>
 
-<h3>🏫 College Details</h3>
+        </div>
 
-<p id="pBranch"></p>
-<p id="pExam"></p>
-<p id="pCutoff"></p>
-<p id="pFees"></p>
+        <button class="recommend-btn" onclick="recommend()">
+            🔍 Recommend Colleges
+        </button>
 
-<hr>
+    </section>
 
-<h3>🏆 Campus Features</h3>
+    <section class="results-section">
 
-<p id="pSports"></p>
-<p id="pPlacement"></p>
-<p id="pCultural"></p>
-<p id="pClubs"></p>
+        <h2>Recommended Colleges</h2>
 
-    <p id="pAI"></p>
-    <button onclick="closePopup()">Close</button>
+        <div id="result" class="results-grid"></div>
 
-    <script src="script.js"></script>
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+    <script src="firebase.js"></script>
+    <script src="app.js"></script>
+
 </body>
-  </div>
-</div>
+
+</html>
