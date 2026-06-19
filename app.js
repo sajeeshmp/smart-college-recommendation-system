@@ -407,33 +407,38 @@ function render(list) {
 /* -------------------------
    COMPARE
 --------------------------*/
+function addCompare(id){
 
-function addCompare(id) {
-
-    if (
-        !compareList.includes(id)
-    ) {
-
-        compareList.push(id);
-
-        localStorage.setItem(
-            "compare",
-            JSON.stringify(compareList)
-        );
-
-        alert(
-            "Added To Compare Dashboard"
-        );
-
-    } else {
+    if(compareList.includes(id)){
 
         alert(
             "Already Added"
         );
 
+        return;
     }
 
+    if(compareList.length >= 2){
+
+        alert(
+            "Maximum 2 Colleges"
+        );
+
+        return;
+    }
+
+    compareList.push(id);
+
+    localStorage.setItem(
+        "compare",
+        JSON.stringify(compareList)
+    );
+
+    alert(
+        "Added To Compare"
+    );
 }
+
 
 /* -------------------------
    FAVORITES
