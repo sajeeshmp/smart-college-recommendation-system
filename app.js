@@ -465,6 +465,63 @@ function addCompare(id){
     );
 }
 
+function showDetails(id){
+
+    const c =
+    colleges.find(
+        x => x.id === id
+    );
+
+    if(!c) return;
+
+    document
+    .getElementById("popup")
+    .classList
+    .remove("hidden");
+
+    document
+    .getElementById("pName")
+    .innerText =
+    c.collegeName;
+
+    document
+    .getElementById("pLocation")
+    .innerText =
+    "📍 " + c.city;
+
+    document
+    .getElementById("pBranch")
+    .innerText =
+    "🎓 " + c.branch;
+
+    document
+    .getElementById("pFees")
+    .innerText =
+    "💰 ₹" + c.fees;
+
+    document
+    .getElementById("pExam")
+    .innerText =
+    "📝 " +
+    (c.admissionModes || [])
+    .join(", ");
+
+    document
+    .getElementById("pCutoff")
+    .innerText =
+    "KCET: " +
+    c.kcetCutoff +
+    " | COMEDK: " +
+    c.comedkCutoff;
+}
+
+function closePopup(){
+
+    document
+    .getElementById("popup")
+    .classList
+    .add("hidden");
+}
 
 /* -------------------------
    FAVORITES
