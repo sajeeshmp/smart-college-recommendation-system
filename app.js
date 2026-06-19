@@ -318,66 +318,36 @@ function recommend() {
 /* -------------------------
    RENDER
 --------------------------*/
-function render(list){
 
-    const box =
-    document.getElementById("result");
+function render(list) {
 
-    box.innerHTML = "";
+    const result =
+        document.getElementById("result");
 
-    if(list.length === 0){
+    if (!result) return;
 
-        box.innerHTML = `
+    result.innerHTML = "";
+
+    if (list.length === 0) {
+
+        result.innerHTML = `
+
         <div class="card">
             <h2>No Colleges Found</h2>
         </div>
+
         `;
 
         return;
     }
 
-    list.forEach((c,index)=>{
+    list.forEach(c => {
 
-        let match =
-        Math.min(
-            100,
-            c.score || 50
-        );
-
-        let badge =
-        index === 0
-        ?
-        `<div class="score">
-            🏆 TOP MATCH
-         </div>`
-        :
-        `<div class="score">
-            ⭐ ${match}% Match
-         </div>`;
-
-        let reasons = [];
-
-        if(c.score >= 20)
-            reasons.push("Course Match");
-
-        if(c.score >= 40)
-            reasons.push("Branch Match");
-
-        if(c.score >= 60)
-            reasons.push("Budget Friendly");
-
-        if(c.score >= 80)
-            reasons.push("Exam Eligible");
-
-        box.innerHTML += `
+        result.innerHTML += `
 
         <div class="card">
 
-            ${badge}
-
-            <h3>
-                ${c.collegeName}
-            </h3>
+            <h3>${c.collegeName}</h3>
 
             <p>
                 📍 ${c.city}
@@ -388,139 +358,81 @@ function render(list){
             </p>
 
             <p>
-                💰 ₹${c.fees}
+                💰 ₹${Number(
+                    c.fees
+                ).toLocaleString()}
             </p>
 
             <p>
-                📊 AI Score:
-                ${c.score || 0}
+                🏆 Match Score:
+                <b>${c.score || 0}</b>
             </p>
-
-            <hr>
 
             <p>
-                💡 Why Recommended?
+                KCET Cutoff:
+                ${c.kcetCutoff || "N/A"}
             </p>
 
-            <ul>
+            <p>
+                COMEDK Cutoff:
+                ${c.comedkCutoff || "N/A"}
+            </p>
 
-                ${reasons.map(
-                    r=>`<li>${r}</li>`
-                ).join("")}
+            <button
+                onclick="addCompare(
+                    '${c.id}'
+                )">
 
-            </ul>
-
-            <br>
-
-            <button onclick="showDetails('${c.id}')">
-                View Details
-            </button>
-
-            <button onclick="addCompare('${c.id}')">
                 Compare
+
             </button>
 
-            <button onclick="addFav('${c.id}')">
+            <button
+                onclick="addFav(
+                    '${c.id}'
+                )">
+
                 Favorite
+
             </button>
 
         </div>
 
         `;
+
     });
+
 }
 
 /* -------------------------
    COMPARE
 --------------------------*/
-function addCompare(id){
 
-    if(compareList.includes(id)){
+function addCompare(id) {
+
+    if (
+        !compareList.includes(id)
+    ) {
+
+        compareList.push(id);
+
+        localStorage.setItem(
+            "compare",
+            JSON.stringify(compareList)
+        );
+
+        alert(
+            "Added To Compare Dashboard"
+        );
+
+    } else {
 
         alert(
             "Already Added"
         );
 
-        return;
     }
 
-    if(compareList.length >= 2){
-
-        alert(
-            "Maximum 2 Colleges"
-        );
-
-        return;
-    }
-
-    compareList.push(id);
-
-    localStorage.setItem(
-        "compare",
-        JSON.stringify(compareList)
-    );
-
-    alert(
-        "Added To Compare"
-    );
-}
-
-function showDetails(id){
-
-    const c =
-    colleges.find(
-        x => x.id === id
-    );
-
-    if(!c) return;
-
-    document
-    .getElementById("popup")
-    .classList
-    .remove("hidden");
-
-    document
-    .getElementById("pName")
-    .innerText =
-    c.collegeName;
-
-    document
-    .getElementById("pLocation")
-    .innerText =
-    "📍 " + c.city;
-
-    document
-    .getElementById("pBranch")
-    .innerText =
-    "🎓 " + c.branch;
-
-    document
-    .getElementById("pFees")
-    .innerText =
-    "💰 ₹" + c.fees;
-
-    document
-    .getElementById("pExam")
-    .innerText =
-    "📝 " +
-    (c.admissionModes || [])
-    .join(", ");
-
-    document
-    .getElementById("pCutoff")
-    .innerText =
-    "KCET: " +
-    c.kcetCutoff +
-    " | COMEDK: " +
-    c.comedkCutoff;
-}
-
-function closePopup(){
-
-    document
-    .getElementById("popup")
-    .classList
-    .add("hidden");
 }
 
 /* -------------------------
@@ -593,21 +505,4 @@ async function addFav(id) {
 
     }
 
-}
-async function logout(){
-
-    try{
-
-        await auth.signOut();
-
-        alert("Logged Out");
-
-        window.location.href =
-        "login.html";
-
-    }catch(err){
-
-        console.error(err);
-
-    }
 }
