@@ -1,62 +1,48 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>College Comparison</title>
+    <title>Compare Colleges</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-    <div class="bg-blur blur1"></div>
-    <div class="bg-blur blur2"></div>
-
-    <header class="navbar">
-
-        <div class="logo">
-            🎓 Smart College
-        </div>
-
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="compare.html">Compare</a>
-            <a href="favorites.html">Favorites</a>
-            <a href="admin.html">Admin</a>
-        </nav>
-
-    </header>
-
-    <section class="hero">
-
-        <div class="hero-card">
-
-            <h1>College Comparison Dashboard</h1>
-
-            <p>
-                Compare colleges side-by-side using
-                fees, branch, cutoff and admission mode.
-            </p>
-
-        </div>
-
-    </section>
-
-    <section class="results-section">
-
-        <div id="compareBox" class="results-grid"></div>
-
-    </section>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+</head>
 
-    <script src="firebase.js"></script>
-    <script src="compare.js"></script>
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🎓 Smart College
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="compare.html">Compare</a>
+        <a href="favorites.html">Favorites</a>
+        <a href="admin.html">Admin</a>
+    </nav>
+
+</header>
+
+<section class="hero">
+
+    <h1>College Comparison</h1>
+
+    <p>
+        Compare colleges side by side
+    </p>
+
+</section>
+
+<div id="compareContainer">
+
+</div>
+
+<script src="firebase.js"></script>
+<script src="compare.js"></script>
 
 </body>
-
 </html>
