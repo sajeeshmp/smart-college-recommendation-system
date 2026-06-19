@@ -1,48 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Compare Colleges</title>
+    <title>College Comparison</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header class="navbar">
+    <div class="bg-blur blur1"></div>
+    <div class="bg-blur blur2"></div>
 
-    <div class="logo">
-        🎓 Smart College
-    </div>
+    <header class="navbar">
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="compare.html">Compare</a>
-        <a href="favorites.html">Favorites</a>
-        <a href="admin.html">Admin</a>
-    </nav>
+        <div class="logo">
+            🎓 Smart College
+        </div>
 
-</header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="compare.html">Compare</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="admin.html">Admin</a>
+        </nav>
 
-<section class="hero">
+    </header>
 
-    <h1>College Comparison</h1>
+    <section class="hero">
 
-    <p>
-        Compare colleges side by side
-    </p>
+        <div class="hero-card">
 
-</section>
+            <h1>College Comparison Dashboard</h1>
 
-<div id="compareContainer">
+            <p>
+                Compare colleges side-by-side using
+                fees, branch, cutoff and admission mode.
+            </p>
 
-</div>
+        </div>
 
-<script src="firebase.js"></script>
-<script src="compare.js"></script>
+    </section>
+
+    <section class="results-section">
+
+        <div id="compareBox" class="results-grid"></div>
+
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+    <script src="firebase.js"></script>
+    <script src="compare.js"></script>
 
 </body>
+
 </html>
