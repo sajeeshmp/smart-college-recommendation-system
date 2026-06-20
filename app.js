@@ -538,7 +538,8 @@ async function addFav(id) {
 
     }
 
-    function showDetails(id){
+}
+  function showDetails(id){
 
     const c =
     colleges.find(
@@ -594,7 +595,6 @@ function closePopup(){
     .getElementById("popup")
     .classList
     .add("hidden");
-}
 }
 async function logout(){
 
