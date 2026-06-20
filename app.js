@@ -319,35 +319,66 @@ function recommend() {
    RENDER
 --------------------------*/
 
-function render(list) {
+function render(list){
 
-    const result =
-        document.getElementById("result");
+    const box =
+    document.getElementById("result");
 
-    if (!result) return;
+    box.innerHTML = "";
 
-    result.innerHTML = "";
+    if(list.length === 0){
 
-    if (list.length === 0) {
-
-        result.innerHTML = `
-
+        box.innerHTML = `
         <div class="card">
             <h2>No Colleges Found</h2>
         </div>
-
         `;
 
         return;
     }
 
-    list.forEach(c => {
+    list.forEach((c,index)=>{
 
-        result.innerHTML += `
+        let match =
+        Math.min(
+            100,
+            c.score || 50
+        );
+
+        let badge =
+        index === 0
+        ?
+        `<div class="score">
+            🏆 TOP MATCH
+         </div>`
+        :
+        `<div class="score">
+            ⭐ ${match}% Match
+         </div>`;
+
+        let reasons = [];
+
+        if(c.score >= 20)
+            reasons.push("Course Match");
+
+        if(c.score >= 40)
+            reasons.push("Branch Match");
+
+        if(c.score >= 60)
+            reasons.push("Budget Friendly");
+
+        if(c.score >= 80)
+            reasons.push("Exam Eligible");
+
+        box.innerHTML += `
 
         <div class="card">
 
-            <h3>${c.collegeName}</h3>
+            ${badge}
+
+            <h3>
+                ${c.collegeName}
+            </h3>
 
             <p>
                 📍 ${c.city}
@@ -358,50 +389,46 @@ function render(list) {
             </p>
 
             <p>
-                💰 ₹${Number(
-                    c.fees
-                ).toLocaleString()}
+                💰 ₹${c.fees}
             </p>
 
             <p>
-                🏆 Match Score:
-                <b>${c.score || 0}</b>
+                📊 AI Score:
+                ${c.score || 0}
             </p>
+
+            <hr>
 
             <p>
-                KCET Cutoff:
-                ${c.kcetCutoff || "N/A"}
+                💡 Why Recommended?
             </p>
 
-            <p>
-                COMEDK Cutoff:
-                ${c.comedkCutoff || "N/A"}
-            </p>
+            <ul>
 
-            <button
-                onclick="addCompare(
-                    '${c.id}'
-                )">
+                ${reasons.map(
+                    r=>`<li>${r}</li>`
+                ).join("")}
 
-                Compare
+            </ul>
 
+            <br>
+
+            <button onclick="showDetails('${c.id}')">
+                View Details
             </button>
 
-            <button
-                onclick="addFav(
-                    '${c.id}'
-                )">
+            <button onclick="addCompare('${c.id}')">
+                Compare
+            </button>
 
+            <button onclick="addFav('${c.id}')">
                 Favorite
-
             </button>
 
         </div>
 
         `;
-
     });
-
 }
 
 /* -------------------------
