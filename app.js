@@ -434,24 +434,17 @@ function render(list){
 /* -------------------------
    COMPARE
 --------------------------*/
-
 function addCompare(id){
 
     if(compareList.includes(id)){
 
-        alert(
-            "Already Added"
-        );
-
+        alert("Already Added");
         return;
     }
 
     if(compareList.length >= 2){
 
-        alert(
-            "Maximum 2 Colleges"
-        );
-
+        alert("Maximum 2 Programs");
         return;
     }
 
@@ -462,11 +455,8 @@ function addCompare(id){
         JSON.stringify(compareList)
     );
 
-    alert(
-        "Added To Compare"
-    );
+    alert("Added To Compare");
 }
-
 
 /* -------------------------
    FAVORITES
