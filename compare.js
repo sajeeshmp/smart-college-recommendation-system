@@ -46,6 +46,8 @@ async function loadCompare(){
             .doc(collegeId)
             .get();
 
+            console.log("College Doc:", collegeDoc.data());
+            
             const programDoc =
             await collegesCollection
             .doc(collegeId)
@@ -53,6 +55,8 @@ async function loadCompare(){
             .doc(programId)
             .get();
 
+            console.log("Program Doc:", programDoc.data());
+            
             if(
                 collegeDoc.exists &&
                 programDoc.exists
