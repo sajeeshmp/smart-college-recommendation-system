@@ -2,7 +2,8 @@ console.log("📊 Compare Page Loaded");
 
 let compareIds =
 JSON.parse(
-localStorage.getItem("compare") || "[]"
+localStorage.getItem("compare")
+|| "[]"
 );
 
 window.onload = loadCompare;
@@ -19,8 +20,7 @@ async function loadCompare(){
         box.innerHTML = `
 
         <div class="card">
-            <h2>Select 2 Colleges First</h2>
-            <p>Add colleges from Home Page.</p>
+            <h2>Select 2 Programs First</h2>
         </div>
 
         `;
@@ -28,62 +28,64 @@ async function loadCompare(){
         return;
     }
 
-    let colleges = [];
+    let programs = [];
 
-    for(const id of compareIds){
+    for(const item of compareIds){
+
+        const parts =
+        item.split("_");
+
+        const collegeId =
+        parts[0];
+
+        const programId =
+        parts.slice(1).join("_");
 
         const collegeDoc =
         await collegesCollection
-        .doc(id)
+        .doc(collegeId)
         .get();
 
-        const programs =
+        const programDoc =
         await collegesCollection
-        .doc(id)
+        .doc(collegeId)
         .collection("programs")
+        .doc(programId)
         .get();
 
-        let branchList = [];
-        let feeList = [];
-        let kcetList = [];
-        let comedkList = [];
+        if(
+            collegeDoc.exists &&
+            programDoc.exists
+        ){
 
-        programs.forEach(p=>{
+            programs.push({
 
-            const data = p.data();
+                college:
+                collegeDoc.data(),
 
-            branchList.push(data.branch);
+                program:
+                programDoc.data()
 
-            feeList.push(data.fees);
+            });
 
-            kcetList.push(data.kcetCutoff);
-
-            comedkList.push(data.comedkCutoff);
-
-        });
-
-        colleges.push({
-
-            ...collegeDoc.data(),
-
-            branches:
-            branchList.join(", "),
-
-            fees:
-            feeList.join(", "),
-
-            kcet:
-            kcetList.join(", "),
-
-            comedk:
-            comedkList.join(", ")
-
-        });
-
+        }
     }
 
-    const c1 = colleges[0];
-    const c2 = colleges[1];
+    if(programs.length < 2){
+
+        box.innerHTML = `
+
+        <div class="card">
+            Comparison Data Missing
+        </div>
+
+        `;
+
+        return;
+    }
+
+    const p1 = programs[0];
+    const p2 = programs[1];
 
     box.innerHTML = `
 
@@ -93,75 +95,56 @@ async function loadCompare(){
 
         <tr>
             <th>Feature</th>
-            <th>${c1.collegeName}</th>
-            <th>${c2.collegeName}</th>
+            <th>${p1.program.branch}</th>
+            <th>${p2.program.branch}</th>
+        </tr>
+
+        <tr>
+            <td>College</td>
+            <td>${p1.college.collegeName}</td>
+            <td>${p2.college.collegeName}</td>
         </tr>
 
         <tr>
             <td>City</td>
-            <td>${c1.city}</td>
-            <td>${c2.city}</td>
+            <td>${p1.college.city}</td>
+            <td>${p2.college.city}</td>
         </tr>
 
         <tr>
-            <td>State</td>
-            <td>${c1.state}</td>
-            <td>${c2.state}</td>
+            <td>Course</td>
+            <td>${p1.program.course}</td>
+            <td>${p2.program.course}</td>
         </tr>
 
         <tr>
-            <td>Type</td>
-            <td>${c1.collegeType}</td>
-            <td>${c2.collegeType}</td>
-        </tr>
-
-        <tr>
-            <td>Branches</td>
-            <td>${c1.branches}</td>
-            <td>${c2.branches}</td>
+            <td>Branch</td>
+            <td>${p1.program.branch}</td>
+            <td>${p2.program.branch}</td>
         </tr>
 
         <tr>
             <td>Fees</td>
-            <td>${c1.fees}</td>
-            <td>${c2.fees}</td>
+            <td>₹${p1.program.fees}</td>
+            <td>₹${p2.program.fees}</td>
         </tr>
 
         <tr>
             <td>KCET Cutoff</td>
-            <td>${c1.kcet}</td>
-            <td>${c2.kcet}</td>
+            <td>${p1.program.kcetCutoff}</td>
+            <td>${p2.program.kcetCutoff}</td>
         </tr>
 
         <tr>
             <td>COMEDK Cutoff</td>
-            <td>${c1.comedk}</td>
-            <td>${c2.comedk}</td>
+            <td>${p1.program.comedkCutoff}</td>
+            <td>${p2.program.comedkCutoff}</td>
         </tr>
 
         <tr>
-            <td>Admission Modes</td>
-            <td>${c1.admissionModes.join(", ")}</td>
-            <td>${c2.admissionModes.join(", ")}</td>
-        </tr>
-
-        <tr>
-            <td>Website</td>
-
-            <td>
-                <a href="${c1.website}"
-                target="_blank">
-                Visit
-                </a>
-            </td>
-
-            <td>
-                <a href="${c2.website}"
-                target="_blank">
-                Visit
-                </a>
-            </td>
-
+            <td>Management</td>
+            <td>${p1.program.managementAvailable ? "Yes" : "No"}</td>
+            <td>${p2.program.managementAvailable ? "Yes" : "No"}</td>
         </tr>
 
     </table>
