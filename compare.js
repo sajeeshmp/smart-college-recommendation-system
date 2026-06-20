@@ -2,151 +2,111 @@ console.log("📊 Compare Page Loaded");
 
 let compareIds =
 JSON.parse(
-localStorage.getItem("compare") || "[]"
+localStorage.getItem("compare")
+|| "[]"
 );
 
 window.onload = loadCompare;
 
-async function loadCompare() {
+async function loadCompare(){
 
     const box =
-        document.getElementById("compareBox");
+    document.getElementById(
+        "compareContainer"
+    );
 
-    box.innerHTML = "";
-
-    if (compareIds.length === 0) {
+    if(compareIds.length < 2){
 
         box.innerHTML = `
+
         <div class="card">
-            <h2>No Colleges Selected</h2>
-            <p>Add colleges from Home Page.</p>
+
+            <h2>
+                Select at least
+                2 colleges
+            </h2>
+
         </div>
+
         `;
 
         return;
     }
 
-    try {
+    let colleges = [];
 
-        for (const id of compareIds) {
+    for(const id of compareIds){
 
-            const collegeDoc =
-                await collegesCollection
-                    .doc(id)
-                    .get();
+        const doc =
+        await collegesCollection
+        .doc(id)
+        .get();
 
-            if (!collegeDoc.exists)
-                continue;
+        if(doc.exists){
 
-            const college =
-                collegeDoc.data();
-
-            const programSnap =
-                await collegesCollection
-                    .doc(id)
-                    .collection("programs")
-                    .get();
-
-            let programHTML = "";
-
-            programSnap.forEach(program => {
-
-                const p = program.data();
-
-                programHTML += `
-
-                <div style="
-                    margin-top:10px;
-                    padding:10px;
-                    background:rgba(255,255,255,.05);
-                    border-radius:12px;
-                ">
-
-                    <h4>${p.branch}</h4>
-
-                    <p>
-                    Course:
-                    ${p.course}
-                    </p>
-
-                    <p>
-                    Fees:
-                    ₹${Number(p.fees)
-                        .toLocaleString()}
-                    </p>
-
-                    <p>
-                    KCET:
-                    ${p.kcetCutoff || "N/A"}
-                    </p>
-
-                    <p>
-                    COMEDK:
-                    ${p.comedkCutoff || "N/A"}
-                    </p>
-
-                </div>
-
-                `;
-
-            });
-
-            box.innerHTML += `
-
-            <div class="card">
-
-                <h2>
-                ${college.collegeName}
-                </h2>
-
-                <p>
-                📍 ${college.city}
-                </p>
-
-                <p>
-                🏛️ ${college.collegeType || ""}
-                </p>
-
-                <p>
-                🎯 Admission:
-                ${(college.admissionModes || [])
-                    .join(", ")}
-                </p>
-
-                ${programHTML}
-
-                <button
-                onclick="removeCollege('${id}')">
-                Remove
-                </button>
-
-            </div>
-
-            `;
-
+            colleges.push(
+                doc.data()
+            );
         }
-
-    } catch (err) {
-
-        console.error(err);
-
-        box.innerHTML =
-        `<div class="card">
-            Error Loading Compare Page
-        </div>`;
     }
 
-}
+    if(colleges.length < 2){
 
-function removeCollege(id) {
+        box.innerHTML =
+        "<div class='card'>Not enough colleges selected</div>";
 
-    compareIds =
-    compareIds.filter(x => x !== id);
+        return;
+    }
 
-    localStorage.setItem(
-        "compare",
-        JSON.stringify(compareIds)
-    );
+    const c1 = colleges[0];
+    const c2 = colleges[1];
 
-    loadCompare();
+    box.innerHTML = `
+
+    <table class="compare-table">
+
+        <tr>
+            <th>Feature</th>
+            <th>${c1.collegeName}</th>
+            <th>${c2.collegeName}</th>
+        </tr>
+
+        <tr>
+            <td>City</td>
+            <td>${c1.city}</td>
+            <td>${c2.city}</td>
+        </tr>
+
+        <tr>
+            <td>State</td>
+            <td>${c1.state || "-"}</td>
+            <td>${c2.state || "-"}</td>
+        </tr>
+
+        <tr>
+            <td>Type</td>
+            <td>${c1.collegeType || "-"}</td>
+            <td>${c2.collegeType || "-"}</td>
+        </tr>
+
+        <tr>
+            <td>Website</td>
+            <td>
+                <a href="${c1.website}"
+                   target="_blank">
+                   Visit
+                </a>
+            </td>
+
+            <td>
+                <a href="${c2.website}"
+                   target="_blank">
+                   Visit
+                </a>
+            </td>
+        </tr>
+
+    </table>
+
+    `;
 }
