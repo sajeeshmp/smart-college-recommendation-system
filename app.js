@@ -417,7 +417,7 @@ function render(list){
                 View Details
             </button>
 
-            <button onclick="addCompare('${c.id}')">
+            <button onclick="addCompare('${c.id}_${c.programId}')">
                 Compare
             </button>
 
