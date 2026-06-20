@@ -596,3 +596,20 @@ function closePopup(){
     .add("hidden");
 }
 }
+async function logout(){
+
+    try{
+
+        await auth.signOut();
+
+        alert("Logged Out");
+
+        window.location.href =
+        "login.html";
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
