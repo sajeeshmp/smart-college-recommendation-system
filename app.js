@@ -600,6 +600,5 @@ async function logout(){
     }catch(err){
 
         console.error(err);
-
-    }
+}
 }
