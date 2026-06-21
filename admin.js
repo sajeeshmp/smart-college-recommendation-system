@@ -267,7 +267,7 @@ async function loadColleges() {
             <div class="card">
 
                 <h3>
-                    ${college.collegeName}
+                    ${college.collegeName || "College"}
                 </h3>
 
                 <p>
