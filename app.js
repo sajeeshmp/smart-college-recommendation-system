@@ -61,6 +61,57 @@ console.error(err);
 
 }
 
+const locationSelect =
+document.getElementById("location");
+
+const examSelect =
+document.getElementById("exam");
+
+if(locationSelect && examSelect){
+
+    locationSelect.addEventListener(
+    "change",
+    function(){
+
+        if(
+            this.value === "Chennai" ||
+            this.value === "Thiruvananthapuram"
+        ){
+
+            examSelect.innerHTML = `
+                <option value="">
+                    Select Exam
+                </option>
+
+                <option value="Management">
+                    Management
+                </option>
+            `;
+
+        }else{
+
+            examSelect.innerHTML = `
+                <option value="">
+                    Select Exam
+                </option>
+
+                <option value="KCET">
+                    KCET
+                </option>
+
+                <option value="COMEDK">
+                    COMEDK
+                </option>
+
+                <option value="Management">
+                    Management
+                </option>
+            `;
+        }
+
+    });
+
+}
 /* =========================
    START
 ========================= */
@@ -814,3 +865,4 @@ alert(
 }
 
 }
+
