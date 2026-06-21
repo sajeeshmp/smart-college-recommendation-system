@@ -141,7 +141,7 @@ async function loadFavorites() {
             <div class="card">
 
                 <h2>
-                    ${college.collegeName}
+                    ${college.collegeName || "College"}
                 </h2>
 
                 <p>
