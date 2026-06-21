@@ -18,32 +18,32 @@
 
     <header class="navbar">
 
-    <div class="logo">
-        🎓 Smart College
-    </div>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="compare.html">Compare</a>
-        <a href="favorites.html">Favorites</a>
-        <a href="admin.html">Admin</a>
-        <a href="login.html">Login</a>
-    </nav>
-
-    <div style="display:flex;gap:15px;align-items:center;">
-
-        <div id="userInfo">
-            Guest User
+        <div class="logo">
+            🎓 Smart College
         </div>
 
-        <button id="logoutBtn"
-                onclick="logout()">
-            Logout
-        </button>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="compare.html">Compare</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html">Login</a>
+        </nav>
 
-    </div>
+        <div style="display:flex;gap:15px;align-items:center;">
 
-</header>
+            <div id="userInfo">
+                Guest User
+            </div>
+
+            <button id="logoutBtn"
+                    onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </header>
 
     <section class="hero">
 
@@ -52,9 +52,8 @@
             <h1>Smart College Recommendation System</h1>
 
             <p>
-                Find the best college based on KCET, COMEDK,
-                Management Quota, Branch Preference,
-                Location and Fee Structure.
+                Find the best college based on Entrance Exam,
+                Course, Branch, Location and Fee Structure.
             </p>
 
         </div>
@@ -74,47 +73,118 @@
                 <option value="Management">Management</option>
             </select>
 
-            <input id="rank" type="number" placeholder="Enter Rank">
+            <input
+                id="rank"
+                type="number"
+                placeholder="Enter Rank">
 
-            <select id="course">
+            <select
+                id="course"
+                onchange="updateBranches()">
+
                 <option value="">Select Course</option>
+
                 <option>B.Tech</option>
                 <option>BBA</option>
+                <option>BCA</option>
                 <option>B.Com</option>
+                <option>B.Sc</option>
+
             </select>
 
             <select id="branch">
-                <option value="">Select Branch</option>
+
+                <option value="">
+                    Select Branch
+                </option>
+
             </select>
 
             <select id="location">
-                <option value="">Select Location</option>
+
+                <option value="">
+                    Select Location
+                </option>
+
                 <option>Bengaluru</option>
                 <option>Chennai</option>
+                <option>Thiruvananthapuram</option>
+
             </select>
 
             <select id="feesFilter">
-                <option value="">Maximum Fees</option>
-                <option value="100000">₹1,00,000</option>
-                <option value="200000">₹2,00,000</option>
-                <option value="500000">₹5,00,000</option>
+
+                <option value="">
+                    Maximum Fees
+                </option>
+
+                <option value="100000">
+                    ₹1,00,000
+                </option>
+
+                <option value="200000">
+                    ₹2,00,000
+                </option>
+
+                <option value="500000">
+                    ₹5,00,000
+                </option>
+
             </select>
 
         </div>
 
-        <button class="recommend-btn" onclick="recommend()">
+        <button
+            class="recommend-btn"
+            onclick="recommend()">
+
             🔍 Recommend Colleges
+
         </button>
 
     </section>
 
     <section class="results-section">
 
-        <h2>Recommended Colleges</h2>
+        <h2>
+            Recommended Colleges
+        </h2>
 
-        <div id="result" class="results-grid"></div>
+        <div
+            id="result"
+            class="results-grid">
+
+        </div>
 
     </section>
+
+    <!-- POPUP -->
+
+    <div id="popup" class="popup hidden">
+
+        <div class="popup-box">
+
+            <h2 id="pName"></h2>
+
+            <p id="pLocation"></p>
+
+            <p id="pBranch"></p>
+
+            <p id="pFees"></p>
+
+            <p id="pExam"></p>
+
+            <p id="pCutoff"></p>
+
+            <br>
+
+            <button onclick="closePopup()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -123,32 +193,6 @@
     <script src="firebase.js"></script>
     <script src="app.js"></script>
 
-    <div id="popup" class="popup hidden">
-
-    <div class="popup-box">
-
-        <h2 id="pName"></h2>
-
-        <p id="pLocation"></p>
-
-        <p id="pBranch"></p>
-
-        <p id="pFees"></p>
-
-        <p id="pExam"></p>
-
-        <p id="pCutoff"></p>
-
-        <br>
-
-        <button onclick="closePopup()">
-            Close
-        </button>
-
-    </div>
-
-</div>
-    
 </body>
 
 </html>
