@@ -523,7 +523,7 @@ box.innerHTML += `
 ${badge}
 
 <h3>
-${c.collegeName || "College"}
+<h3>${c.collegeName}</h3>
 </h3>
 
 <p>
