@@ -699,14 +699,16 @@ alert(
    POPUP
 ========================= */
 
-function showDetails(id){
+function showDetails(id, programId){
 
     const c =
     colleges.find(
-        x => x.id === id
+    x =>
+    x.id === id &&
+    x.programId === programId
     );
 
-    if(!c) return;
+if(!c) return;
 
     document
     .getElementById("popup")
