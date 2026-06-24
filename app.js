@@ -699,77 +699,79 @@ alert(
    POPUP
 ========================= */
 
-function showDetails(
-collegeId,
-programId
-){
+function showDetails(id){
 
-const c =
-colleges.find(
+    const c =
+    colleges.find(
+        x => x.id === id
+    );
 
-item =>
+    if(!c) return;
 
-item.id === collegeId &&
-item.programId === programId
+    document
+    .getElementById("popup")
+    .classList
+    .remove("hidden");
 
-);
+    document
+    .getElementById("pName")
+    .innerHTML =
+    `🏛️ ${c.collegeName}`;
 
-if(!c) return;
+    document
+    .getElementById("pLocation")
+    .innerText =
+    `📍 ${c.city}, ${c.state}`;
 
-document
-.getElementById("popup")
-.classList
-.remove("hidden");
+    document
+    .getElementById("pBranch")
+    .innerText =
+    `🎓 Branch: ${c.branch}`;
 
-document
-.getElementById("pName")
-.innerText =
+    document
+    .getElementById("pCourse")
+    .innerText =
+    `📚 Course: ${c.course}`;
 
-c.collegeName ||
-"College";
+    document
+    .getElementById("pFees")
+    .innerText =
+    `💰 Fees: ₹${Number(
+        c.fees || 0
+    ).toLocaleString()}`;
 
-document
-.getElementById("pLocation")
-.innerText =
+    document
+    .getElementById("pType")
+    .innerText =
+    `🏫 Type: ${
+        c.collegeType || "N/A"
+    }`;
 
-"📍 " + c.city;
+    document
+    .getElementById("pWebsite")
+    .innerHTML =
 
-document
-.getElementById("pBranch")
-.innerText =
+    `🌐 Website:
+    <a href="${c.website}"
+       target="_blank"
+       style="
+       color:#60a5fa;
+       text-decoration:none;
+       font-weight:600;">
+       Visit Website
+    </a>`;
 
-"🎓 " + c.branch;
+    document
+    .getElementById("pCutoff")
+    .innerText =
 
-document
-.getElementById("pFees")
-.innerText =
+    `📊 KCET Cutoff: ${
+        c.kcetCutoff || "N/A"
+    }
 
-"💰 ₹" +
-Number(
-c.fees
-).toLocaleString();
-
-document
-.getElementById("pExam")
-.innerText =
-
-"📝 " +
-
-(c.admissionModes || [])
-.join(", ");
-
-document
-.getElementById("pCutoff")
-.innerText =
-
-"KCET: " +
-
-c.kcetCutoff +
-
-" | COMEDK: " +
-
-c.comedkCutoff;
-
+    | COMEDK Cutoff: ${
+        c.comedkCutoff || "N/A"
+    }`;
 }
 
 function closePopup(){
