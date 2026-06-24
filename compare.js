@@ -104,8 +104,8 @@ box.innerHTML = `
 
 <tr>
 <th>Feature</th>
-<th>${c1.collegeName}</th>
-<th>${c2.collegeName}</th>
+<th>${c1.college.collegeName}</th>
+<th>${c2.college.collegeName}</th>
 </tr>
 
 <tr>
