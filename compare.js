@@ -9,22 +9,34 @@ localStorage.getItem("compare")
 window.onload =
 loadCompare;
 
-async function loadCompare(){
+/* =========================
+CLEAR COMPARE
+========================= */
 
 function clearCompare(){
 
-    localStorage.removeItem(
-        "compare"
-    );
+```
+localStorage.removeItem(
+    "compare"
+);
 
-    alert(
-        "Compare Cleared"
-    );
+compareData = [];
 
-    window.location.reload();
+alert(
+    "Compare Cleared"
+);
+
+window.location.reload();
+```
 
 }
-  
+
+/* =========================
+LOAD COMPARE
+========================= */
+
+async function loadCompare(){
+
 const box =
 document.getElementById(
 "compareContainer"
@@ -167,4 +179,5 @@ box.innerHTML = `
 </table>
 
 `;
+
 }
