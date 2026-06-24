@@ -723,7 +723,7 @@ if(!c) return;
     document
     .getElementById("pLocation")
     .innerText =
-    `📍 ${c.city}, ${c.state}`;
+    `📍 Location: ${c.city}, ${c.state}`;
 
     document
     .getElementById("pBranch")
@@ -767,11 +767,11 @@ if(!c) return;
     .getElementById("pCutoff")
     .innerText =
 
-    `📊 
+    `📊 Cutoff 📊
     KCET Cutoff: ${
     c.kcetCutoff || "N/A"
     }
-   COMEDK Cutoff: ${
+    COMEDK Cutoff: ${
     c.comedkCutoff || "N/A"
     }`;
 }
@@ -868,4 +868,3 @@ alert(
 }
 
 }
-
