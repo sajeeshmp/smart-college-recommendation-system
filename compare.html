@@ -54,14 +54,13 @@ Compare selected colleges
 <section class="results-section">
 
 <button
-    class="recommend-btn"
-    onclick="clearCompare()"
-    style="
-        margin:20px auto;
-        display:block;
-    ">
+class="recommend-btn"
+onclick="
+localStorage.removeItem('compare');
+location.reload();
+">
 
-    Clear Compare
+Clear Compare
 
 </button>
 
