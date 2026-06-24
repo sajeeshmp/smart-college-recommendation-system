@@ -266,7 +266,7 @@ options = [
 "AI&DS",
 "ISE",
 "ECE",
-"IOT,
+"IOT",
 
 ];
 
