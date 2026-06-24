@@ -767,12 +767,12 @@ if(!c) return;
     .getElementById("pCutoff")
     .innerText =
 
-    `📊 KCET Cutoff: ${
-        c.kcetCutoff || "N/A"
+    `📊 
+    KCET Cutoff: ${
+    c.kcetCutoff || "N/A"
     }
-
-    | COMEDK Cutoff: ${
-        c.comedkCutoff || "N/A"
+   COMEDK Cutoff: ${
+    c.comedkCutoff || "N/A"
     }`;
 }
 
