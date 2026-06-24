@@ -262,12 +262,11 @@ if(course === "B.Tech"){
 options = [
 
 "CSE",
-"AI_DS",
+"AI&ML",
+"AI&DS",
 "ISE",
 "ECE",
-"EEE",
-"ME",
-"CE"
+"IOT,
 
 ];
 
