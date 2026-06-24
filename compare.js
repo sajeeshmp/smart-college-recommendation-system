@@ -11,6 +11,20 @@ loadCompare;
 
 async function loadCompare(){
 
+function clearCompare(){
+
+    localStorage.removeItem(
+        "compare"
+    );
+
+    alert(
+        "Compare Cleared"
+    );
+
+    window.location.reload();
+
+}
+  
 const box =
 document.getElementById(
 "compareContainer"
