@@ -75,7 +75,9 @@ if(locationSelect && examSelect){
 
         if(
             this.value === "Chennai" ||
-            this.value === "Thiruvananthapuram"
+            this.value === "Delhi" ||
+            this.value === "Hyderabad" ||
+            this.value === "Mumbai"
         ){
 
             examSelect.innerHTML = `
