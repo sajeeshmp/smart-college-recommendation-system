@@ -22,17 +22,48 @@ document.getElementById(
 "userInfo"
 );
 
-if(!userInfo) return;
+if(userInfo){
 
-if(user){
+    if(user){
 
-userInfo.innerHTML =
-`👤 ${user.email}`;
+        userInfo.innerHTML =
+        `👤 ${user.email}`;
 
-}else{
+    }
 
-userInfo.innerHTML =
-"Guest User";
+    else{
+
+        userInfo.innerHTML =
+        "Guest User";
+
+    }
+
+}
+
+const adminLink =
+document.getElementById(
+"adminLink"
+);
+
+if(adminLink){
+
+    if(
+        user &&
+        user.email ===
+        "smartcollegerecommenders@gmail.com"
+    ){
+
+        adminLink.style.display =
+        "inline-block";
+
+    }
+
+    else{
+
+        adminLink.style.display =
+        "none";
+
+    }
 
 }
 
@@ -367,140 +398,159 @@ Select Branch
 function recommend(){
 
 const exam =
-document.getElementById(
-"exam"
-).value;
+document.getElementById("exam").value;
 
 const rank =
 Number(
-document.getElementById(
-"rank"
-).value
+document.getElementById("rank").value
 );
 
 const course =
-document.getElementById(
-"course"
-).value;
+document.getElementById("course").value;
 
 const branch =
-document.getElementById(
-"branch"
-).value;
+document.getElementById("branch").value;
 
 const location =
-document.getElementById(
-"location"
-).value;
+document.getElementById("location").value;
 
 const maxFees =
 Number(
-document.getElementById(
-"feesFilter"
-).value
+document.getElementById("feesFilter").value
 );
 
 let results = [];
 
 colleges.forEach(c=>{
+    console.log(
+    c.collegeName,
+    c.admissionModes
+    );
 
-let score = 0;
+    /* COURSE FILTER */
 
-if(
-course &&
-c.course === course
-){
-score += 25;
-}
+    if(course && c.course !== course){
+        return;
+    }
 
-if(
-branch &&
-c.branch === branch
-){
-score += 30;
-}
+    /* BRANCH FILTER */
 
-if(
-location &&
-c.city === location
-){
-score += 15;
-}
+    if(branch && c.branch !== branch){
+        return;
+    }
 
-if(
-maxFees > 0 &&
-c.fees <= maxFees
-){
-score += 15;
-}
+    /* LOCATION FILTER */
 
-if(exam === "KCET"){
+    if(location && c.city !== location){
+        return;
+    }
 
-if(
-c.admissionModes.includes(
-"KCET"
-)
-){
-score += 20;
-}
+    /* FEES FILTER */
 
-if(
-rank > 0 &&
-c.kcetCutoff > 0 &&
-rank <= c.kcetCutoff
-){
-score += 30;
-}
+    if(maxFees > 0 && c.fees > maxFees){
+        return;
+    }
 
-}
+    let difference = 999999;
 
-if(exam === "COMEDK"){
+    /* KCET */
 
-if(
-c.admissionModes.includes(
-"COMEDK"
-)
-){
-score += 20;
-}
+    if(exam === "KCET"){
 
-if(
-rank > 0 &&
-c.comedkCutoff > 0 &&
-rank <= c.comedkCutoff
-){
-score += 30;
-}
+       if(
+       JSON.stringify(c.admissionModes)
+       .indexOf("KCET") === -1
+       ){
+             return;
+       }
 
-}
+        if(rank > 0){
 
-if(
-exam === "Management" &&
-c.managementAvailable
-){
-score += 40;
-}
+            if(
+                c.kcetCutoff <= 0
+            ){
+                return;
+            }
 
-if(score > 0){
+            difference =
+            Math.abs(
+                c.kcetCutoff - rank
+            );
+            if(difference > 5000){
+              return;
+            }
 
-results.push({
+        }
 
-...c,
-score
+    }
+
+    /* COMEDK */
+
+    else if(exam === "COMEDK"){
+
+       if(
+       JSON.stringify(c.admissionModes)
+       .indexOf("COMEDK") === -1
+       ){
+           return;
+       }   
+
+        if(rank > 0){
+
+            if(
+                c.comedkCutoff <= 0
+            ){
+                return;
+            }
+
+            difference =
+            Math.abs(
+            c.comedkCutoff - rank
+            );
+            if(difference > 5000){
+            return;
+            } 
+        }
+
+    }
+
+    /* MANAGEMENT */
+
+    else if(exam === "Management"){
+
+        if(
+        String(c.managementAvailable)
+        !== "true" &&
+        c.managementAvailable !== true
+        ){
+        return;
+        }
+
+        difference = 0;
+
+    }
+
+    results.push({
+
+        ...c,
+        difference
+
+    });
 
 });
 
-}
+/* SORT BY CLOSEST RANK */
+
+results.sort((a,b)=>{
+
+    return a.difference - b.difference;
 
 });
-
-results.sort(
-(a,b)=>b.score-a.score
-);
 
 render(results);
 
 }
+
 /* =========================
    RENDER
 ========================= */
@@ -542,20 +592,27 @@ Math.min(
 c.score || 50
 );
 
-const badge =
-index === 0
+let badge = "";
 
-?
+if(index === 0){
 
-`<div class="score">
-🏆 TOP MATCH
-</div>`
+badge = `
+<div class="score">
+🏆 Best Recommendation
+</div>
+`;
 
-:
+}
 
-`<div class="score">
-⭐ ${match}% Match
-</div>`;
+else{
+
+badge = `
+<div class="score">
+⭐ Other Recommendation
+</div>
+`;
+
+}
 
 let reasons = [];
 
@@ -594,11 +651,6 @@ ${badge}
 💰 ₹${Number(
 c.fees
 ).toLocaleString()}
-</p>
-
-<p>
-📊 Match Score:
-${c.score || 0}
 </p>
 
 <hr>
