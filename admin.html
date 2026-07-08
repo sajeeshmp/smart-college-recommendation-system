@@ -1,3 +1,23 @@
+<script>
+auth.onAuthStateChanged(user=>{
+
+    if(
+        !user ||
+        user.email !==
+        "smartcollegerecommenders@gmail.com"
+    ){
+
+        alert(
+        "Admin Access Only"
+        );
+
+        window.location.href =
+        "index.html";
+
+    }
+
+});
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
